@@ -1,4 +1,5 @@
-﻿using System;
+﻿ // Handles UI formatting and display
+using System;
 using System.Threading;
 
 namespace CyberSecurityChatbot
