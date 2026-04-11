@@ -1,4 +1,6 @@
-﻿using System;
+﻿ // Main chatbot logic and menu system
+
+using System;
 
 namespace CyberSecurityChatbot
 {
