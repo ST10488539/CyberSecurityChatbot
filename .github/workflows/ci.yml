@@ -1,4 +1,4 @@
-name: .NET CI
+name: CI Build
 
 on:
   push:
@@ -16,5 +16,8 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: Restore dependencies
+        run: dotnet restore
+
       - name: Build project
-        run: dotnet build
+        run: dotnet build *.csproj --configuration Release
