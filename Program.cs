@@ -1,4 +1,5 @@
-﻿using System;
+ // Entry point of application
+using System;
 
 namespace CyberSecurityChatbot
 {
