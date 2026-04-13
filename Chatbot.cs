@@ -10,142 +10,49 @@ namespace CyberSecurityChatbot
         private AudioPlayer audio = new AudioPlayer();
         private ResponseHandler responder = new ResponseHandler();
 
-        private string username;
-        private string password;
-        private string email;
-
-        private bool isRunning = true;
-
         public void Start()
         {
             Console.Title = "Cyber Security Chatbot";
 
+            ui.DrawHeader();
+
             audio.PlayGreeting();
-            ui.ShowWelcomeScreen();
 
-            MainLoop();
-        }
+            Console.Write("\nEnter your name: ");
+            string username = Console.ReadLine()?.Trim();
+            responder.SetUsername(username);
 
-        private void MainLoop()
-        {
-            while (isRunning)
-            {
-                ShowMainMenu();
-            }
-        }
+            ui.TypeText($"\nHi {username}! Welcome to the Cyber Security Chatbot.");
+            ui.TypeText("You can ask me anything about cybersecurity, like password safety, phishing, or safe browsing.");
+            ui.TypeText("Type 'exit' at any time to leave the chat.");
+            ui.TypeText("Please ask your question below:\n");
 
-        private void ShowMainMenu()
-        {
-            ui.Header("Main Menu");
-
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("1. Enter your Details");
-            Console.WriteLine("2. View Summary");
-            Console.WriteLine("3. Chat with Bot 🤖");
-            Console.WriteLine("4. Exit");
-            Console.ResetColor();
-
-            Console.Write("\nSelect an option: ");
-            string choice = Console.ReadLine()?.Trim();
-
-            switch (choice)
-            {
-                case "1":
-                    EnterDetails();
-                    break;
-
-                case "2":
-                    ShowSummary();
-                    break;
-
-                case "3":
-                    RunChat();
-                    break;
-
-                case "4":
-                    ExitApp();
-                    break;
-
-                default:
-                    ui.InvalidOption();
-                    break;
-            }
-        }
-
-        private void EnterDetails()
-        {
-            Console.Clear();
-            ui.Header("User Input");
-
-            Console.Write("Enter your name : ");
-            username = Console.ReadLine();
-
-          
-         
-            ui.ReturnToMain(ShowMainMenu);
-        }
-
-        private void ShowSummary()
-        {
-            Console.Clear();
-            ui.Header("Summary");
-
-            if (string.IsNullOrWhiteSpace(username))
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("No data available. Please enter details first.");
-                Console.ResetColor();
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"Username: {username}");
-               
-                Console.ResetColor();
-            }
-
-            ui.ReturnToMain(ShowMainMenu);
+            RunChat();
         }
 
         private void RunChat()
         {
-            Console.Clear();
-            ui.Header("Cyber Chat Mode 🤖");
-
-            Console.WriteLine("hi "+username+" Ask anything about cybersecurity etc password,phishing,browsing!");
-            Console.WriteLine("Type 'exit' to return to main menu.\n");
-
             while (true)
             {
                 Console.Write("You: ");
-                string input = Console.ReadLine()?.Trim().ToLower();
+                string input = Console.ReadLine()?.Trim();
 
                 if (string.IsNullOrWhiteSpace(input))
                 {
-                    Console.WriteLine("⚠ Please enter something "+ username);
+                    Console.WriteLine("⚠ Please enter a question or command.");
                     continue;
                 }
 
-                if (input == "exit")
+                if (input.ToLower() == "exit")
                 {
-                    Console.WriteLine("Leaving chat mode...");
+                    Console.WriteLine("\nExiting chat... Goodbye!");
                     break;
                 }
 
                 string response = responder.GetResponse(input);
-
                 ui.TypeText("Bot: " + response);
+                ui.TypeText("\nYou can ask another question or type 'exit' to leave the chat.\n");
             }
-
-            ui.ReturnToMain(ShowMainMenu);
-        }
-
-        private void ExitApp()
-        {
-            ui.Header("Goodbye");
-            ui.TypeText("Thanks for using the Cyber Security Chatbot!");
-
-            isRunning = false;
         }
     }
 }
