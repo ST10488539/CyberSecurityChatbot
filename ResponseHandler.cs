@@ -9,27 +9,66 @@ namespace CyberSecurityChatbot
 {
     internal class ResponseHandler
     {
+        private string _username;
+        private bool _hasGreeted = false;
+
+        public void SetUsername(string username)
+        {
+            _username = username;
+        }
+
         public string GetResponse(string input)
         {
-            if (input == "how are you")
-                return "I'm good, thanks!";
+            string response = "";
 
-            if (input == "purpose")
-                return "I help you stay safe online.";
+            if (!_hasGreeted)
+            {
+                response += $"Hi {_username}, I'm here to help you stay safe online. Choose a topic you'd like help with, such as passwords, phishing, or safe browsing.\n\n";
+                _hasGreeted = true;
+            }
 
-            if (input == "help")
-                return "You can ask about passwords, phishing, and safe browsing.";
+            switch (input.ToLower())
+            {
+                case "purpose":
+                    response += "My purpose is to guide you on how to protect yourself online and understand basic cybersecurity practices.";
+                    break;
 
-            if (input == "password")
-                return "Use strong passwords and don't share them.";
+                case "help":
+                    response += "You can ask me about:\n" +
+                                "- Password safety\n" +
+                                "- Phishing scams\n" +
+                                "- Secure browsing\n" +
+                                "Just type the topic you're interested in!";
+                    break;
 
-            if (input == "phishing")
-                return "Phishing is fake messages used to steal your information.";
+                case "password":
+                    response += "Create strong passwords by:\n" +
+                                "- Using at least 12 characters\n" +
+                                "- Mixing letters, numbers, and symbols\n" +
+                                "- Avoiding personal information\n" +
+                                "- Using a password manager";
+                    break;
 
-            if (input == "browsing")
-                return "Only visit secure websites and avoid unknown links.";
+                case "phishing":
+                    response += "Watch out for phishing:\n" +
+                                "- Suspicious emails or links\n" +
+                                "- Urgent requests for personal info\n" +
+                                "- Poor spelling and grammar";
+                    break;
 
-            return "I don't understand.";
+                case "browsing":
+                    response += "Browse safely by:\n" +
+                                "- Using secure websites (https)\n" +
+                                "- Avoiding unknown links\n" +
+                                "- Keeping your software updated";
+                    break;
+
+                default:
+                    response += "I didn’t understand that. Try asking about passwords, phishing, or browsing.";
+                    break;
+            }
+
+            return response;
         }
     }
 }
