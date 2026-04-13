@@ -3,21 +3,36 @@ name: CI Build
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '7.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore ./CyberSecurityChatbot/CyberSecurityChatbot.csproj
 
       - name: Build project
-        run: dotnet build *.csproj --configuration Release
+        run: dotnet build ./CyberSecurityChatbot/CyberSecurityChatbot.csproj --configuration Release
+
+      - name: Run tests
+        run: dotnet test ./CyberSecurityChatbot/CyberSecurityChatbot.csproj --no-build --logger "trx;LogFileName=test_results.trx"
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: ./CyberSecurityChatbot/TestResults/test_results.trx
