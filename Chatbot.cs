@@ -77,16 +77,11 @@ namespace CyberSecurityChatbot
             Console.Clear();
             ui.Header("User Input");
 
-            Console.Write("Enter your username: ");
+            Console.Write("Enter your name : ");
             username = Console.ReadLine();
 
-            Console.Write("Enter your email: ");
-            email = Console.ReadLine();
-
-            Console.Write("Enter your password: ");
-            password = Console.ReadLine();
-
-            ui.TypeText("Information saved successfully.");
+          
+         
             ui.ReturnToMain(ShowMainMenu);
         }
 
@@ -95,9 +90,7 @@ namespace CyberSecurityChatbot
             Console.Clear();
             ui.Header("Summary");
 
-            if (string.IsNullOrWhiteSpace(username) ||
-                string.IsNullOrWhiteSpace(email) ||
-                string.IsNullOrWhiteSpace(password))
+            if (string.IsNullOrWhiteSpace(username))
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("No data available. Please enter details first.");
@@ -107,8 +100,7 @@ namespace CyberSecurityChatbot
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"Username: {username}");
-                Console.WriteLine($"Email: {email}");
-                Console.WriteLine($"Password: {"*".PadLeft(password.Length, '*')}");
+               
                 Console.ResetColor();
             }
 
@@ -120,7 +112,7 @@ namespace CyberSecurityChatbot
             Console.Clear();
             ui.Header("Cyber Chat Mode 🤖");
 
-            Console.WriteLine("Ask anything about cybersecurity etc password,phishing,browsing!");
+            Console.WriteLine("hi "+username+" Ask anything about cybersecurity etc password,phishing,browsing!");
             Console.WriteLine("Type 'exit' to return to main menu.\n");
 
             while (true)
@@ -130,7 +122,7 @@ namespace CyberSecurityChatbot
 
                 if (string.IsNullOrWhiteSpace(input))
                 {
-                    Console.WriteLine("⚠ Please enter something.");
+                    Console.WriteLine("⚠ Please enter something "+ username);
                     continue;
                 }
 
